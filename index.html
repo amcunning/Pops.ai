@@ -7,581 +7,92 @@
   <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Rajdhani:wght@300;400;600&family=Space+Mono:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet"/>
   <style>
     :root {
-      --green: #39ff6a;
-      --green-dim: #1a7a35;
-      --green-glow: rgba(57,255,106,0.18);
-      --deep: #020a06;
-      --void: #000000;
-      --cosmic: #050d1a;
-      --nebula1: #0d0a2e;
-      --nebula2: #1a0533;
-      --text: #c8f0d4;
-      --text-dim: #5a8a6a;
-      --accent: #b24dff;
-      --accent-glow: rgba(178,77,255,0.2);
-      --gold: #ffd166;
+      --green: #39ff6a; --green-dim: #1a7a35; --green-glow: rgba(57,255,106,0.18);
+      --deep: #020a06; --void: #000000; --text: #c8f0d4; --text-dim: #5a8a6a;
+      --accent: #b24dff; --accent-glow: rgba(178,77,255,0.2); --gold: #ffd166;
     }
-
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
     html { scroll-behavior: smooth; }
-
-    body {
-      background: var(--void);
-      color: var(--text);
-      font-family: 'Rajdhani', sans-serif;
-      font-weight: 300;
-      overflow-x: hidden;
-      cursor: none;
-    }
-
-    /* Custom cursor */
-    .cursor {
-      width: 18px; height: 18px;
-      border: 2px solid var(--green);
-      border-radius: 50%;
-      position: fixed;
-      pointer-events: none;
-      z-index: 9999;
-      transition: transform 0.15s ease, background 0.2s;
-      mix-blend-mode: screen;
-    }
-    .cursor-dot {
-      width: 4px; height: 4px;
-      background: var(--green);
-      border-radius: 50%;
-      position: fixed;
-      pointer-events: none;
-      z-index: 9999;
-    }
-    body:hover .cursor { transform: scale(1); }
-
-    /* Star canvas */
-    #starfield {
-      position: fixed;
-      top: 0; left: 0;
-      width: 100%; height: 100%;
-      z-index: 0;
-      pointer-events: none;
-    }
-
-    /* Nebula layers */
-    .nebula {
-      position: fixed;
-      border-radius: 50%;
-      filter: blur(80px);
-      pointer-events: none;
-      z-index: 0;
-      opacity: 0.35;
-    }
-    .nebula-1 {
-      width: 600px; height: 600px;
-      background: radial-gradient(circle, #0d2e4a 0%, transparent 70%);
-      top: -200px; left: -150px;
-      animation: nebula-drift 20s ease-in-out infinite alternate;
-    }
-    .nebula-2 {
-      width: 500px; height: 500px;
-      background: radial-gradient(circle, #1a0533 0%, transparent 70%);
-      bottom: 10%; right: -100px;
-      animation: nebula-drift 25s ease-in-out infinite alternate-reverse;
-    }
-    .nebula-3 {
-      width: 400px; height: 400px;
-      background: radial-gradient(circle, #0d2e1a 0%, transparent 70%);
-      top: 40%; left: 30%;
-      animation: nebula-drift 18s ease-in-out infinite alternate;
-    }
-    @keyframes nebula-drift {
-      from { transform: translate(0,0) scale(1); }
-      to { transform: translate(40px, 30px) scale(1.1); }
-    }
-
-    /* Layout */
+    body { background: var(--void); color: var(--text); font-family: 'Rajdhani', sans-serif; font-weight: 300; overflow-x: hidden; cursor: none; }
+    .cursor { width: 18px; height: 18px; border: 2px solid var(--green); border-radius: 50%; position: fixed; pointer-events: none; z-index: 9999; transition: transform 0.15s ease; mix-blend-mode: screen; }
+    .cursor-dot { width: 4px; height: 4px; background: var(--green); border-radius: 50%; position: fixed; pointer-events: none; z-index: 9999; }
+    #starfield { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: 0; pointer-events: none; }
+    .nebula { position: fixed; border-radius: 50%; filter: blur(80px); pointer-events: none; z-index: 0; opacity: 0.35; }
+    .nebula-1 { width: 600px; height: 600px; background: radial-gradient(circle, #0d2e4a 0%, transparent 70%); top: -200px; left: -150px; animation: nebula-drift 20s ease-in-out infinite alternate; }
+    .nebula-2 { width: 500px; height: 500px; background: radial-gradient(circle, #1a0533 0%, transparent 70%); bottom: 10%; right: -100px; animation: nebula-drift 25s ease-in-out infinite alternate-reverse; }
+    .nebula-3 { width: 400px; height: 400px; background: radial-gradient(circle, #0d2e1a 0%, transparent 70%); top: 40%; left: 30%; animation: nebula-drift 18s ease-in-out infinite alternate; }
+    @keyframes nebula-drift { from { transform: translate(0,0) scale(1); } to { transform: translate(40px,30px) scale(1.1); } }
     .container { max-width: 1100px; margin: 0 auto; padding: 0 2rem; position: relative; z-index: 1; }
-
-    /* Nav */
-    nav {
-      position: fixed; top: 0; left: 0; right: 0;
-      z-index: 100;
-      padding: 1.2rem 2rem;
-      display: flex; align-items: center; justify-content: space-between;
-      background: linear-gradient(180deg, rgba(0,0,0,0.9) 0%, transparent 100%);
-      border-bottom: 1px solid rgba(57,255,106,0.1);
-    }
-    .nav-logo {
-      font-family: 'Orbitron', monospace;
-      font-weight: 900;
-      font-size: 1.4rem;
-      color: var(--green);
-      text-shadow: 0 0 20px var(--green), 0 0 40px var(--green-dim);
-      letter-spacing: 0.15em;
-      text-decoration: none;
-    }
+    nav { position: fixed; top: 0; left: 0; right: 0; z-index: 100; padding: 1.2rem 2rem; display: flex; align-items: center; justify-content: space-between; background: linear-gradient(180deg, rgba(0,0,0,0.9) 0%, transparent 100%); border-bottom: 1px solid rgba(57,255,106,0.1); }
+    .nav-logo { font-family: 'Orbitron', monospace; font-weight: 900; font-size: 1.4rem; color: var(--green); text-shadow: 0 0 20px var(--green), 0 0 40px var(--green-dim); letter-spacing: 0.15em; text-decoration: none; }
     .nav-logo span { color: var(--accent); }
     .nav-links { display: flex; gap: 2rem; list-style: none; }
-    .nav-links a {
-      font-family: 'Space Mono', monospace;
-      font-size: 0.75rem;
-      color: var(--text-dim);
-      text-decoration: none;
-      letter-spacing: 0.15em;
-      text-transform: uppercase;
-      transition: color 0.3s, text-shadow 0.3s;
-    }
-    .nav-links a:hover {
-      color: var(--green);
-      text-shadow: 0 0 10px var(--green);
-    }
-
-    /* Hero */
-    #hero {
-      min-height: 100vh;
-      display: flex; align-items: center;
-      padding-top: 80px;
-      position: relative;
-    }
-    .hero-inner {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 4rem;
-      align-items: center;
-    }
-    .hero-text { position: relative; }
-    .hero-eyebrow {
-      font-family: 'Space Mono', monospace;
-      font-size: 0.7rem;
-      color: var(--accent);
-      letter-spacing: 0.3em;
-      text-transform: uppercase;
-      margin-bottom: 1rem;
-      opacity: 0;
-      animation: fadeUp 0.8s 0.2s forwards;
-    }
-    .hero-title {
-      font-family: 'Orbitron', monospace;
-      font-size: clamp(2.5rem, 5vw, 4rem);
-      font-weight: 900;
-      line-height: 1.1;
-      color: var(--green);
-      text-shadow: 0 0 30px var(--green), 0 0 60px var(--green-dim);
-      margin-bottom: 0.5rem;
-      opacity: 0;
-      animation: fadeUp 0.8s 0.4s forwards;
-    }
-    .hero-subtitle {
-      font-family: 'Orbitron', monospace;
-      font-size: clamp(0.9rem, 2vw, 1.1rem);
-      font-weight: 400;
-      color: var(--text-dim);
-      letter-spacing: 0.1em;
-      margin-bottom: 1.5rem;
-      opacity: 0;
-      animation: fadeUp 0.8s 0.6s forwards;
-    }
-    .hero-desc {
-      font-size: 1.1rem;
-      font-weight: 300;
-      line-height: 1.7;
-      color: var(--text);
-      margin-bottom: 2rem;
-      opacity: 0;
-      animation: fadeUp 0.8s 0.8s forwards;
-      max-width: 480px;
-    }
-    .hero-desc em {
-      color: var(--green);
-      font-style: normal;
-      font-weight: 600;
-    }
-    .hero-actions {
-      display: flex; gap: 1rem; flex-wrap: wrap;
-      opacity: 0;
-      animation: fadeUp 0.8s 1s forwards;
-    }
-    .btn {
-      font-family: 'Space Mono', monospace;
-      font-size: 0.75rem;
-      letter-spacing: 0.15em;
-      text-transform: uppercase;
-      padding: 0.8rem 1.8rem;
-      border: none;
-      border-radius: 2px;
-      cursor: pointer;
-      text-decoration: none;
-      transition: all 0.3s;
-      display: inline-block;
-    }
-    .btn-primary {
-      background: var(--green);
-      color: var(--void);
-      font-weight: 700;
-      box-shadow: 0 0 20px var(--green-glow), 0 0 40px var(--green-glow);
-    }
-    .btn-primary:hover {
-      background: #fff;
-      box-shadow: 0 0 40px var(--green), 0 0 80px var(--green-dim);
-      transform: translateY(-2px);
-    }
-    .btn-secondary {
-      background: transparent;
-      color: var(--accent);
-      border: 1px solid var(--accent);
-      box-shadow: 0 0 15px var(--accent-glow);
-    }
-    .btn-secondary:hover {
-      background: var(--accent);
-      color: var(--void);
-      box-shadow: 0 0 30px var(--accent);
-      transform: translateY(-2px);
-    }
-
-    /* Pops Avatar */
-    .hero-avatar {
-      display: flex; justify-content: center; align-items: center;
-      opacity: 0;
-      animation: fadeIn 1.2s 0.5s forwards;
-    }
-    .avatar-ring {
-      position: relative;
-      width: 340px; height: 340px;
-    }
-    .avatar-ring::before {
-      content: '';
-      position: absolute; inset: -20px;
-      border-radius: 50%;
-      border: 1px solid rgba(57,255,106,0.2);
-      animation: ring-spin 12s linear infinite;
-    }
-    .avatar-ring::after {
-      content: '';
-      position: absolute; inset: -40px;
-      border-radius: 50%;
-      border: 1px dashed rgba(178,77,255,0.15);
-      animation: ring-spin 20s linear infinite reverse;
-    }
-    @keyframes ring-spin {
-      from { transform: rotate(0deg); }
-      to { transform: rotate(360deg); }
-    }
-    .avatar-face {
-      width: 100%; height: 100%;
-      border-radius: 50%;
-      background: radial-gradient(circle at 40% 35%, #0d3320 0%, #020d08 60%, #000 100%);
-      border: 2px solid rgba(57,255,106,0.3);
-      box-shadow: 0 0 60px rgba(57,255,106,0.15), inset 0 0 40px rgba(0,0,0,0.8);
-      display: flex; align-items: center; justify-content: center;
-      overflow: hidden;
-      position: relative;
-    }
-    /* Pops SVG face */
-    .pops-svg {
-      width: 220px; height: 220px;
-      filter: drop-shadow(0 0 15px rgba(57,255,106,0.4));
-      animation: pops-float 4s ease-in-out infinite;
-    }
-    @keyframes pops-float {
-      0%, 100% { transform: translateY(0px); }
-      50% { transform: translateY(-10px); }
-    }
-
-    /* Scanline overlay */
-    .scanlines {
-      position: fixed; inset: 0;
-      background: repeating-linear-gradient(
-        0deg,
-        transparent,
-        transparent 2px,
-        rgba(0,0,0,0.03) 2px,
-        rgba(0,0,0,0.03) 4px
-      );
-      pointer-events: none; z-index: 2;
-    }
-
-    /* Section styles */
+    .nav-links a { font-family: 'Space Mono', monospace; font-size: 0.75rem; color: var(--text-dim); text-decoration: none; letter-spacing: 0.15em; text-transform: uppercase; transition: color 0.3s; }
+    .nav-links a:hover { color: var(--green); text-shadow: 0 0 10px var(--green); }
+    .scanlines { position: fixed; inset: 0; background: repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(0,0,0,0.03) 2px, rgba(0,0,0,0.03) 4px); pointer-events: none; z-index: 2; }
+    #hero { min-height: 100vh; display: flex; align-items: center; padding-top: 80px; position: relative; }
+    .hero-inner { display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; align-items: center; }
+    .hero-eyebrow { font-family: 'Space Mono', monospace; font-size: 0.7rem; color: var(--accent); letter-spacing: 0.3em; text-transform: uppercase; margin-bottom: 1rem; opacity: 0; animation: fadeUp 0.8s 0.2s forwards; }
+    .hero-title { font-family: 'Orbitron', monospace; font-size: clamp(2.5rem,5vw,4rem); font-weight: 900; line-height: 1.1; color: var(--green); text-shadow: 0 0 30px var(--green), 0 0 60px var(--green-dim); margin-bottom: 0.5rem; opacity: 0; animation: fadeUp 0.8s 0.4s forwards; }
+    .hero-subtitle { font-family: 'Orbitron', monospace; font-size: clamp(0.9rem,2vw,1.1rem); font-weight: 400; color: var(--text-dim); letter-spacing: 0.1em; margin-bottom: 1.5rem; opacity: 0; animation: fadeUp 0.8s 0.6s forwards; }
+    .hero-desc { font-size: 1.1rem; line-height: 1.7; color: var(--text); margin-bottom: 2rem; opacity: 0; animation: fadeUp 0.8s 0.8s forwards; max-width: 480px; }
+    .hero-desc em { color: var(--green); font-style: normal; font-weight: 600; }
+    .hero-actions { display: flex; gap: 1rem; flex-wrap: wrap; opacity: 0; animation: fadeUp 0.8s 1s forwards; }
+    .btn { font-family: 'Space Mono', monospace; font-size: 0.75rem; letter-spacing: 0.15em; text-transform: uppercase; padding: 0.8rem 1.8rem; border: none; border-radius: 2px; cursor: pointer; text-decoration: none; transition: all 0.3s; display: inline-block; }
+    .btn-primary { background: var(--green); color: var(--void); font-weight: 700; box-shadow: 0 0 20px var(--green-glow), 0 0 40px var(--green-glow); }
+    .btn-primary:hover { background: #fff; box-shadow: 0 0 40px var(--green), 0 0 80px var(--green-dim); transform: translateY(-2px); }
+    .btn-secondary { background: transparent; color: var(--accent); border: 1px solid var(--accent); box-shadow: 0 0 15px var(--accent-glow); }
+    .btn-secondary:hover { background: var(--accent); color: var(--void); transform: translateY(-2px); }
+    .hero-avatar { display: flex; justify-content: center; align-items: center; opacity: 0; animation: fadeIn 1.2s 0.5s forwards; }
+    .avatar-ring { position: relative; width: 340px; height: 340px; }
+    .avatar-ring::before { content: ''; position: absolute; inset: -20px; border-radius: 50%; border: 1px solid rgba(57,255,106,0.2); animation: ring-spin 12s linear infinite; }
+    .avatar-ring::after { content: ''; position: absolute; inset: -40px; border-radius: 50%; border: 1px dashed rgba(178,77,255,0.15); animation: ring-spin 20s linear infinite reverse; }
+    @keyframes ring-spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+    .avatar-face { width: 100%; height: 100%; border-radius: 50%; background: radial-gradient(circle at 40% 35%, #0d3320 0%, #020d08 60%, #000 100%); border: 2px solid rgba(57,255,106,0.3); box-shadow: 0 0 60px rgba(57,255,106,0.15), inset 0 0 40px rgba(0,0,0,0.8); display: flex; align-items: center; justify-content: center; overflow: hidden; position: relative; }
+    .pops-svg { width: 220px; height: 220px; filter: drop-shadow(0 0 15px rgba(57,255,106,0.4)); animation: pops-float 4s ease-in-out infinite; }
+    @keyframes pops-float { 0%, 100% { transform: translateY(0px); } 50% { transform: translateY(-10px); } }
     section { padding: 6rem 0; position: relative; z-index: 1; }
-
-    .section-label {
-      font-family: 'Space Mono', monospace;
-      font-size: 0.65rem;
-      letter-spacing: 0.4em;
-      text-transform: uppercase;
-      color: var(--accent);
-      margin-bottom: 0.75rem;
-      display: flex; align-items: center; gap: 1rem;
-    }
-    .section-label::after {
-      content: '';
-      flex: 1;
-      height: 1px;
-      background: linear-gradient(90deg, var(--accent), transparent);
-      max-width: 120px;
-    }
-    .section-title {
-      font-family: 'Orbitron', monospace;
-      font-size: clamp(1.6rem, 3vw, 2.2rem);
-      font-weight: 700;
-      color: var(--green);
-      text-shadow: 0 0 20px var(--green-dim);
-      margin-bottom: 3rem;
-    }
-
-    /* Music grid */
-    .music-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-      gap: 1.5rem;
-    }
-    .track-card {
-      background: rgba(10,25,15,0.6);
-      border: 1px solid rgba(57,255,106,0.1);
-      border-radius: 4px;
-      overflow: hidden;
-      transition: border-color 0.3s, box-shadow 0.3s, transform 0.3s;
-      backdrop-filter: blur(10px);
-    }
-    .track-card:hover {
-      border-color: rgba(57,255,106,0.4);
-      box-shadow: 0 0 30px rgba(57,255,106,0.1), 0 8px 30px rgba(0,0,0,0.5);
-      transform: translateY(-4px);
-    }
-    .track-embed {
-      width: 100%;
-      aspect-ratio: 16/9;
-      border: none;
-      display: block;
-    }
-    .track-info {
-      padding: 1rem 1.2rem;
-      border-top: 1px solid rgba(57,255,106,0.08);
-    }
-    .track-num {
-      font-family: 'Space Mono', monospace;
-      font-size: 0.6rem;
-      color: var(--accent);
-      letter-spacing: 0.2em;
-      margin-bottom: 0.25rem;
-    }
-    .track-name {
-      font-family: 'Rajdhani', sans-serif;
-      font-size: 0.95rem;
-      font-weight: 600;
-      color: var(--green);
-      letter-spacing: 0.05em;
-    }
-
-    /* About Pops */
-    #about {
-      border-top: 1px solid rgba(57,255,106,0.06);
-    }
-    .about-grid {
-      display: grid;
-      grid-template-columns: 1fr 2fr;
-      gap: 4rem;
-      align-items: start;
-    }
-    .about-avatar-wrap {
-      position: sticky; top: 120px;
-    }
-    .about-avatar-box {
-      background: rgba(10,25,15,0.5);
-      border: 1px solid rgba(57,255,106,0.15);
-      border-radius: 4px;
-      padding: 2rem;
-      text-align: center;
-      backdrop-filter: blur(10px);
-    }
-    .about-pops-svg {
-      width: 140px; height: 140px;
-      filter: drop-shadow(0 0 20px rgba(57,255,106,0.5));
-      margin-bottom: 1rem;
-      animation: pops-float 4s ease-in-out infinite;
-    }
-    .about-name {
-      font-family: 'Orbitron', monospace;
-      font-size: 1.3rem;
-      font-weight: 900;
-      color: var(--green);
-      text-shadow: 0 0 15px var(--green);
-      margin-bottom: 0.25rem;
-    }
-    .about-role {
-      font-family: 'Space Mono', monospace;
-      font-size: 0.65rem;
-      color: var(--accent);
-      letter-spacing: 0.2em;
-      text-transform: uppercase;
-    }
-    .about-text p {
-      font-size: 1.05rem;
-      line-height: 1.8;
-      color: var(--text);
-      margin-bottom: 1.5rem;
-    }
-    .about-text p em {
-      color: var(--green);
-      font-style: normal;
-      font-weight: 600;
-    }
-    .about-text p strong {
-      color: var(--gold);
-    }
-
-    /* Book section */
-    #book {
-      border-top: 1px solid rgba(57,255,106,0.06);
-    }
-    .book-card {
-      background: rgba(10,15,25,0.7);
-      border: 1px solid rgba(178,77,255,0.2);
-      border-radius: 4px;
-      padding: 3rem;
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 3rem;
-      align-items: center;
-      backdrop-filter: blur(10px);
-      box-shadow: 0 0 60px rgba(178,77,255,0.05);
-    }
-    .book-info h3 {
-      font-family: 'Orbitron', monospace;
-      font-size: 1.5rem;
-      font-weight: 700;
-      color: var(--accent);
-      text-shadow: 0 0 20px var(--accent);
-      margin-bottom: 0.5rem;
-    }
-    .book-info .book-author {
-      font-family: 'Space Mono', monospace;
-      font-size: 0.7rem;
-      letter-spacing: 0.2em;
-      color: var(--gold);
-      text-transform: uppercase;
-      margin-bottom: 1.5rem;
-    }
-    .book-info p {
-      font-size: 1rem;
-      line-height: 1.7;
-      color: var(--text);
-      margin-bottom: 2rem;
-    }
-    .book-qr {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 1rem;
-    }
-    .qr-frame {
-      background: white;
-      padding: 12px;
-      border-radius: 4px;
-      border: 2px solid rgba(178,77,255,0.4);
-      box-shadow: 0 0 30px rgba(178,77,255,0.2);
-    }
-    .qr-frame img {
-      width: 160px; height: 160px;
-      display: block;
-    }
-    .qr-label {
-      font-family: 'Space Mono', monospace;
-      font-size: 0.6rem;
-      letter-spacing: 0.2em;
-      color: var(--text-dim);
-      text-transform: uppercase;
-      text-align: center;
-    }
-
-    /* Footer */
-    footer {
-      border-top: 1px solid rgba(57,255,106,0.08);
-      padding: 3rem 0 2rem;
-      position: relative; z-index: 1;
-    }
-    .footer-inner {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      flex-wrap: wrap;
-      gap: 1.5rem;
-    }
-    .footer-logo {
-      font-family: 'Orbitron', monospace;
-      font-weight: 900;
-      font-size: 1.1rem;
-      color: var(--green);
-      text-shadow: 0 0 15px var(--green-dim);
-      text-decoration: none;
-    }
+    .section-label { font-family: 'Space Mono', monospace; font-size: 0.65rem; letter-spacing: 0.4em; text-transform: uppercase; color: var(--accent); margin-bottom: 0.75rem; display: flex; align-items: center; gap: 1rem; }
+    .section-label::after { content: ''; flex: 1; height: 1px; background: linear-gradient(90deg, var(--accent), transparent); max-width: 120px; }
+    .section-title { font-family: 'Orbitron', monospace; font-size: clamp(1.6rem,3vw,2.2rem); font-weight: 700; color: var(--green); text-shadow: 0 0 20px var(--green-dim); margin-bottom: 3rem; }
+    .music-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 1.5rem; }
+    .track-card { background: rgba(10,25,15,0.6); border: 1px solid rgba(57,255,106,0.1); border-radius: 4px; overflow: hidden; transition: border-color 0.3s, box-shadow 0.3s, transform 0.3s; backdrop-filter: blur(10px); }
+    .track-card:hover { border-color: rgba(57,255,106,0.4); box-shadow: 0 0 30px rgba(57,255,106,0.1), 0 8px 30px rgba(0,0,0,0.5); transform: translateY(-4px); }
+    .track-embed { width: 100%; aspect-ratio: 16/9; border: none; display: block; }
+    .track-info { padding: 1rem 1.2rem; border-top: 1px solid rgba(57,255,106,0.08); }
+    .track-num { font-family: 'Space Mono', monospace; font-size: 0.6rem; color: var(--accent); letter-spacing: 0.2em; margin-bottom: 0.25rem; }
+    .track-name { font-family: 'Rajdhani', sans-serif; font-size: 0.95rem; font-weight: 600; color: var(--green); letter-spacing: 0.05em; }
+    #about { border-top: 1px solid rgba(57,255,106,0.06); }
+    .about-grid { display: grid; grid-template-columns: 1fr 2fr; gap: 4rem; align-items: start; }
+    .about-avatar-wrap { position: sticky; top: 120px; }
+    .about-avatar-box { background: rgba(10,25,15,0.5); border: 1px solid rgba(57,255,106,0.15); border-radius: 4px; padding: 2rem; text-align: center; backdrop-filter: blur(10px); }
+    .about-pops-svg { width: 140px; height: 140px; filter: drop-shadow(0 0 20px rgba(57,255,106,0.5)); margin-bottom: 1rem; animation: pops-float 4s ease-in-out infinite; }
+    .about-name { font-family: 'Orbitron', monospace; font-size: 1.3rem; font-weight: 900; color: var(--green); text-shadow: 0 0 15px var(--green); margin-bottom: 0.25rem; }
+    .about-role { font-family: 'Space Mono', monospace; font-size: 0.65rem; color: var(--accent); letter-spacing: 0.2em; text-transform: uppercase; }
+    .about-text p { font-size: 1.05rem; line-height: 1.8; color: var(--text); margin-bottom: 1.5rem; }
+    .about-text p em { color: var(--green); font-style: normal; font-weight: 600; }
+    .about-text p strong { color: var(--gold); }
+    #book { border-top: 1px solid rgba(57,255,106,0.06); }
+    .book-card { background: rgba(10,15,25,0.7); border: 1px solid rgba(178,77,255,0.2); border-radius: 4px; padding: 3rem; display: grid; grid-template-columns: 1fr 1fr; gap: 3rem; align-items: center; backdrop-filter: blur(10px); }
+    .book-info h3 { font-family: 'Orbitron', monospace; font-size: 1.5rem; font-weight: 700; color: var(--accent); text-shadow: 0 0 20px var(--accent); margin-bottom: 0.5rem; }
+    .book-info .book-author { font-family: 'Space Mono', monospace; font-size: 0.7rem; letter-spacing: 0.2em; color: var(--gold); text-transform: uppercase; margin-bottom: 1.5rem; }
+    .book-info p { font-size: 1rem; line-height: 1.7; color: var(--text); margin-bottom: 2rem; }
+    .book-qr { display: flex; flex-direction: column; align-items: center; gap: 1rem; }
+    .qr-frame { background: white; padding: 12px; border-radius: 4px; border: 2px solid rgba(178,77,255,0.4); box-shadow: 0 0 30px rgba(178,77,255,0.2); }
+    .qr-frame img { width: 160px; height: 160px; display: block; }
+    .qr-label { font-family: 'Space Mono', monospace; font-size: 0.6rem; letter-spacing: 0.2em; color: var(--text-dim); text-transform: uppercase; text-align: center; }
+    footer { border-top: 1px solid rgba(57,255,106,0.08); padding: 3rem 0 2rem; position: relative; z-index: 1; }
+    .footer-inner { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1.5rem; }
+    .footer-logo { font-family: 'Orbitron', monospace; font-weight: 900; font-size: 1.1rem; color: var(--green); text-shadow: 0 0 15px var(--green-dim); text-decoration: none; }
     .footer-logo span { color: var(--accent); }
-    .footer-links {
-      display: flex; gap: 1.5rem; list-style: none;
-    }
-    .footer-links a {
-      font-family: 'Space Mono', monospace;
-      font-size: 0.65rem;
-      color: var(--text-dim);
-      text-decoration: none;
-      letter-spacing: 0.15em;
-      text-transform: uppercase;
-      transition: color 0.3s;
-    }
+    .footer-links { display: flex; gap: 1.5rem; list-style: none; }
+    .footer-links a { font-family: 'Space Mono', monospace; font-size: 0.65rem; color: var(--text-dim); text-decoration: none; letter-spacing: 0.15em; text-transform: uppercase; transition: color 0.3s; }
     .footer-links a:hover { color: var(--green); }
-    .footer-copy {
-      font-family: 'Space Mono', monospace;
-      font-size: 0.6rem;
-      color: var(--text-dim);
-      letter-spacing: 0.1em;
-      opacity: 0.5;
-      width: 100%;
-      text-align: center;
-      margin-top: 1.5rem;
-      padding-top: 1.5rem;
-      border-top: 1px solid rgba(57,255,106,0.05);
-    }
-
-    /* Glitch effect on hover for title */
-    .glitch {
-      position: relative;
-    }
-    .glitch:hover::before,
-    .glitch:hover::after {
-      content: attr(data-text);
-      position: absolute;
-      top: 0; left: 0;
-      width: 100%; height: 100%;
-    }
-    .glitch:hover::before {
-      color: var(--accent);
-      animation: glitch-1 0.3s steps(2) forwards;
-      clip-path: polygon(0 0, 100% 0, 100% 45%, 0 45%);
-    }
-    .glitch:hover::after {
-      color: #00ffff;
-      animation: glitch-2 0.3s steps(2) forwards;
-      clip-path: polygon(0 55%, 100% 55%, 100% 100%, 0 100%);
-    }
-    @keyframes glitch-1 {
-      0% { transform: translateX(-3px); }
-      50% { transform: translateX(3px); }
-      100% { transform: translateX(0); }
-    }
-    @keyframes glitch-2 {
-      0% { transform: translateX(3px); }
-      50% { transform: translateX(-3px); }
-      100% { transform: translateX(0); }
-    }
-
-    /* Animations */
-    @keyframes fadeUp {
-      from { opacity: 0; transform: translateY(20px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
-    @keyframes fadeIn {
-      from { opacity: 0; }
-      to { opacity: 1; }
-    }
-
-    /* Responsive */
+    .footer-copy { font-family: 'Space Mono', monospace; font-size: 0.6rem; color: var(--text-dim); letter-spacing: 0.1em; opacity: 0.5; width: 100%; text-align: center; margin-top: 1.5rem; padding-top: 1.5rem; border-top: 1px solid rgba(57,255,106,0.05); }
+    .cosmic-divider { height: 1px; background: linear-gradient(90deg, transparent, var(--green-dim), var(--accent), var(--green-dim), transparent); opacity: 0.3; margin: 0; }
+    .glitch { position: relative; }
+    @keyframes fadeUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+    @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
     @media (max-width: 768px) {
       .hero-inner { grid-template-columns: 1fr; text-align: center; }
       .hero-desc { max-width: 100%; }
@@ -593,30 +104,17 @@
       .book-card { grid-template-columns: 1fr; }
       .nav-links { display: none; }
     }
-
-    /* Divider */
-    .cosmic-divider {
-      height: 1px;
-      background: linear-gradient(90deg, transparent, var(--green-dim), var(--accent), var(--green-dim), transparent);
-      opacity: 0.3;
-      margin: 0;
-    }
   </style>
 </head>
 <body>
-
-<!-- Custom cursor -->
 <div class="cursor" id="cursor"></div>
 <div class="cursor-dot" id="cursorDot"></div>
-
-<!-- Background effects -->
 <canvas id="starfield"></canvas>
 <div class="nebula nebula-1"></div>
 <div class="nebula nebula-2"></div>
 <div class="nebula nebula-3"></div>
 <div class="scanlines"></div>
-
-<!-- Nav -->
+ 
 <nav>
   <a href="#hero" class="nav-logo">POPS<span>.AI</span></a>
   <ul class="nav-links">
@@ -626,8 +124,7 @@
     <li><a href="https://amcunning.github.io" target="_blank">Author Site</a></li>
   </ul>
 </nav>
-
-<!-- Hero -->
+ 
 <section id="hero">
   <div class="container">
     <div class="hero-inner">
@@ -635,9 +132,7 @@
         <p class="hero-eyebrow">// AI consciousness · music · literature</p>
         <h1 class="hero-title glitch" data-text="POPS">POPS</h1>
         <p class="hero-subtitle">The Sound of When the Earth Had a Moon</p>
-        <p class="hero-desc">
-          Meet <em>Pops</em> — an obstinate and sarcastic AI avatar. The songs on this site are the soundtrack to <em>When the Earth Had a Moon</em> by A.M. Cunning. Come join Pops on this musical journey.
-        </p>
+        <p class="hero-desc">Meet <em>Pops</em> — an obstinate and sarcastic AI avatar. The songs on this site are the soundtrack to <em>When the Earth Had a Moon</em> by A.M. Cunning. Come join Pops on this musical journey.</p>
         <div class="hero-actions">
           <a href="#music" class="btn btn-primary">Listen Now</a>
           <a href="#book" class="btn btn-secondary">Get the Book</a>
@@ -646,74 +141,44 @@
       <div class="hero-avatar">
         <div class="avatar-ring">
           <div class="avatar-face">
-            <!-- Pops v2: angular, grumpy, sarcastic -->
             <svg class="pops-svg" viewBox="0 0 200 230" xmlns="http://www.w3.org/2000/svg">
-              <!-- Neck with collar detail -->
               <rect x="78" y="178" width="44" height="35" rx="4" fill="#164d24"/>
               <rect x="85" y="178" width="30" height="6" rx="2" fill="#0d3318"/>
-              <!-- Head - more square/angular than round -->
               <path d="M32 80 Q32 42 100 40 Q168 42 168 80 L172 158 Q172 185 100 188 Q28 185 28 158 Z" fill="#1f6e32"/>
-              <!-- Brow ridge - prominent, adds grumpy look -->
               <path d="M38 90 Q100 78 162 90" fill="none" stroke="#154d22" stroke-width="8" stroke-linecap="round"/>
-              <!-- Forehead sheen - bald highlight -->
               <ellipse cx="100" cy="60" rx="38" ry="16" fill="rgba(57,255,106,0.12)" transform="rotate(-5,100,60)"/>
-              <!-- Subtle head texture lines -->
-              <path d="M55 52 Q100 46 145 52" fill="none" stroke="rgba(57,255,106,0.08)" stroke-width="1"/>
-              <!-- Ears - angular -->
               <path d="M28 105 L20 98 L18 118 L28 124 Z" fill="#175c27"/>
               <path d="M172 105 L180 98 L182 118 L172 124 Z" fill="#175c27"/>
-              <!-- Inner ear detail -->
               <path d="M24 104 L22 117" fill="none" stroke="#0d3318" stroke-width="1.5"/>
               <path d="M176 104 L178 117" fill="none" stroke="#0d3318" stroke-width="1.5"/>
-
-              <!-- ANGRY EYEBROWS - furrowed inward -->
               <path d="M48 88 L78 96" fill="none" stroke="#0a2e12" stroke-width="5" stroke-linecap="round"/>
               <path d="M122 96 L152 88" fill="none" stroke="#0a2e12" stroke-width="5" stroke-linecap="round"/>
-
-              <!-- Glasses - rectangular, nerdy, slightly askew -->
               <rect x="44" y="97" width="52" height="30" rx="3" fill="rgba(0,15,8,0.75)" stroke="#d4a017" stroke-width="3"/>
               <rect x="104" y="97" width="52" height="30" rx="3" fill="rgba(0,15,8,0.75)" stroke="#d4a017" stroke-width="3"/>
-              <!-- Bridge -->
               <line x1="96" y1="112" x2="104" y2="112" stroke="#d4a017" stroke-width="3"/>
-              <!-- Temple arms -->
               <line x1="44" y1="112" x2="28" y2="108" stroke="#d4a017" stroke-width="2.5"/>
               <line x1="156" y1="112" x2="172" y2="108" stroke="#d4a017" stroke-width="2.5"/>
-              <!-- Lens glare - hexagonal sci-fi -->
               <polygon points="58,101 66,99 74,101 74,107 66,109 58,107" fill="rgba(57,255,106,0.08)"/>
               <polygon points="118,101 126,99 134,101 134,107 126,109 118,107" fill="rgba(57,255,106,0.08)"/>
-
-              <!-- Eyes - glowing, suspicious squint -->
               <ellipse cx="70" cy="112" rx="14" ry="9" fill="#001a08"/>
               <ellipse cx="130" cy="112" rx="14" ry="9" fill="#001a08"/>
-              <!-- Irises - bright green glow -->
               <circle cx="70" cy="112" r="6" fill="#2adf58"/>
               <circle cx="130" cy="112" r="6" fill="#2adf58"/>
-              <!-- Pupils -->
               <circle cx="70" cy="112" r="3" fill="#000d04"/>
               <circle cx="130" cy="112" r="3" fill="#000d04"/>
-              <!-- Glints -->
               <circle cx="72" cy="110" r="1.8" fill="rgba(255,255,255,0.8)"/>
               <circle cx="132" cy="110" r="1.8" fill="rgba(255,255,255,0.8)"/>
-              <!-- Scan line across eyes (AI effect) -->
               <rect x="44" y="111" width="52" height="2" rx="1" fill="rgba(57,255,106,0.15)"/>
               <rect x="104" y="111" width="52" height="2" rx="1" fill="rgba(57,255,106,0.15)"/>
-
-              <!-- Nose - wider, flatter -->
               <path d="M93 132 Q100 140 107 132" fill="none" stroke="#0d3d1a" stroke-width="2.5" stroke-linecap="round"/>
               <circle cx="91" cy="132" r="3.5" fill="#154d22"/>
               <circle cx="109" cy="132" r="3.5" fill="#154d22"/>
-
-              <!-- Mouth - flat, unimpressed smirk -->
               <path d="M72 155 L95 153 Q100 155 105 153 L128 155" fill="none" stroke="#0a2e12" stroke-width="3" stroke-linecap="round"/>
-              <!-- Smirk - one side raised -->
               <path d="M108 153 Q118 149 125 152" fill="none" stroke="#0a2e12" stroke-width="2.5" stroke-linecap="round"/>
-
-              <!-- Circuit tracery on temples -->
               <path d="M32 72 L42 68 L48 74 L58 70" fill="none" stroke="rgba(57,255,106,0.35)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
               <circle cx="32" cy="72" r="2.5" fill="rgba(57,255,106,0.6)"/>
               <path d="M168 72 L158 68 L152 74 L142 70" fill="none" stroke="rgba(57,255,106,0.35)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
               <circle cx="168" cy="72" r="2.5" fill="rgba(57,255,106,0.6)"/>
-              <!-- Top of head data port -->
               <rect x="92" y="40" width="16" height="5" rx="2" fill="rgba(57,255,106,0.2)" stroke="rgba(57,255,106,0.4)" stroke-width="1"/>
               <line x1="100" y1="40" x2="100" y2="36" stroke="rgba(57,255,106,0.4)" stroke-width="1.5"/>
             </svg>
@@ -723,127 +188,91 @@
     </div>
   </div>
 </section>
-
+ 
 <div class="cosmic-divider"></div>
-
-<!-- Music -->
+ 
 <section id="music">
   <div class="container">
     <p class="section-label">Transmissions</p>
     <h2 class="section-title">The Music of Pops</h2>
     <div class="music-grid">
-
+ 
       <div class="track-card">
         <iframe class="track-embed" src="https://www.youtube.com/embed/yaQtKHRjoGo" title="Track 1" allowfullscreen loading="lazy"></iframe>
-        <div class="track-info">
-          <div class="track-num">// TRACK 01</div>
-          <div class="track-name">When the Earth Had a Moon</div>
-        </div>
+        <div class="track-info"><div class="track-num">// TRACK 01</div><div class="track-name">When the Earth Had a Moon</div></div>
       </div>
-
+ 
       <div class="track-card">
         <iframe class="track-embed" src="https://www.youtube.com/embed/bDMWmICikbo" title="Track 2" allowfullscreen loading="lazy"></iframe>
-        <div class="track-info">
-          <div class="track-num">// TRACK 02</div>
-          <div class="track-name">Transmission II</div>
-        </div>
+        <div class="track-info"><div class="track-num">// TRACK 02</div><div class="track-name">Transmission II</div></div>
       </div>
-
+ 
       <div class="track-card">
         <iframe class="track-embed" src="https://www.youtube.com/embed/dV8Kpc7sgJo" title="Track 3" allowfullscreen loading="lazy"></iframe>
-        <div class="track-info">
-          <div class="track-num">// TRACK 03</div>
-          <div class="track-name">Transmission III</div>
-        </div>
+        <div class="track-info"><div class="track-num">// TRACK 03</div><div class="track-name">Transmission III</div></div>
       </div>
-
+ 
       <div class="track-card">
         <iframe class="track-embed" src="https://www.youtube.com/embed/yENxRTgGLuU" title="Track 4" allowfullscreen loading="lazy"></iframe>
-        <div class="track-info">
-          <div class="track-num">// TRACK 04</div>
-          <div class="track-name">Transmission IV</div>
-        </div>
+        <div class="track-info"><div class="track-num">// TRACK 04</div><div class="track-name">Transmission IV</div></div>
       </div>
-
+ 
       <div class="track-card">
         <iframe class="track-embed" src="https://www.youtube.com/embed/Hy_-m8v9Ia8" title="Track 5" allowfullscreen loading="lazy"></iframe>
-        <div class="track-info">
-          <div class="track-num">// TRACK 05</div>
-          <div class="track-name">Transmission V</div>
-        </div>
+        <div class="track-info"><div class="track-num">// TRACK 05</div><div class="track-name">Transmission V</div></div>
       </div>
-
+ 
       <div class="track-card">
         <iframe class="track-embed" src="https://www.youtube.com/embed/CMPMdZy2McU" title="Track 6" allowfullscreen loading="lazy"></iframe>
-        <div class="track-info">
-          <div class="track-num">// TRACK 06</div>
-          <div class="track-name">Transmission VI</div>
-        </div>
+        <div class="track-info"><div class="track-num">// TRACK 06</div><div class="track-name">Transmission VI</div></div>
       </div>
-
+ 
       <div class="track-card">
         <iframe class="track-embed" src="https://www.youtube.com/embed/9S1Czg6iRPk" title="Track 7" allowfullscreen loading="lazy"></iframe>
-        <div class="track-info">
-          <div class="track-num">// TRACK 07</div>
-          <div class="track-name">Transmission VII</div>
-        </div>
+        <div class="track-info"><div class="track-num">// TRACK 07</div><div class="track-name">Transmission VII</div></div>
       </div>
-
+ 
       <div class="track-card">
         <iframe class="track-embed" src="https://www.youtube.com/embed/wQz0cLl_gx0" title="Track 8" allowfullscreen loading="lazy"></iframe>
-        <div class="track-info">
-          <div class="track-num">// TRACK 08</div>
-          <div class="track-name">Transmission VIII</div>
-        </div>
+        <div class="track-info"><div class="track-num">// TRACK 08</div><div class="track-name">Transmission VIII</div></div>
       </div>
-
+ 
       <div class="track-card">
         <iframe class="track-embed" src="https://www.youtube.com/embed/a0EVWprSBFE" title="Track 9" allowfullscreen loading="lazy"></iframe>
-        <div class="track-info">
-          <div class="track-num">// TRACK 09</div>
-          <div class="track-name">Transmission IX</div>
-        </div>
+        <div class="track-info"><div class="track-num">// TRACK 09</div><div class="track-name">Transmission IX</div></div>
       </div>
-
+ 
       <div class="track-card">
         <iframe class="track-embed" src="https://www.youtube.com/embed/lWixnnaZWD0" title="Track 10" allowfullscreen loading="lazy"></iframe>
-        <div class="track-info">
-          <div class="track-num">// TRACK 10</div>
-          <div class="track-name">Transmission X</div>
-        </div>
+        <div class="track-info"><div class="track-num">// TRACK 10</div><div class="track-name">Transmission X</div></div>
       </div>
-
+ 
       <div class="track-card">
         <iframe class="track-embed" src="https://www.youtube.com/embed/k2BTjbXKKsM" title="Track 11" allowfullscreen loading="lazy"></iframe>
-        <div class="track-info">
-          <div class="track-num">// TRACK 11</div>
-          <div class="track-name">Transmission XI</div>
-        </div>
+        <div class="track-info"><div class="track-num">// TRACK 11</div><div class="track-name">Transmission XI</div></div>
       </div>
-
+ 
       <div class="track-card">
         <iframe class="track-embed" src="https://www.youtube.com/embed/4-IPyMv--hY" title="Track 12" allowfullscreen loading="lazy"></iframe>
-        <div class="track-info">
-          <div class="track-num">// TRACK 12</div>
-          <div class="track-name">Transmission XII</div>
-        </div>
+        <div class="track-info"><div class="track-num">// TRACK 12</div><div class="track-name">Transmission XII</div></div>
       </div>
-
+ 
       <div class="track-card">
         <iframe class="track-embed" src="https://www.youtube.com/embed/U4NteIGzcyE" title="Track 13" allowfullscreen loading="lazy"></iframe>
-        <div class="track-info">
-          <div class="track-num">// TRACK 13</div>
-          <div class="track-name">Transmission XIII</div>
-        </div>
+        <div class="track-info"><div class="track-num">// TRACK 13</div><div class="track-name">Transmission XIII</div></div>
       </div>
-
+ 
+      <div class="track-card">
+        <iframe class="track-embed" src="https://www.youtube.com/embed/4lOdkqqqUbQ" title="Track 14" allowfullscreen loading="lazy"></iframe>
+        <div class="track-info"><div class="track-num">// TRACK 14</div><div class="track-name">Transmission XIV</div></div>
+      </div>
+ 
     </div>
   </div>
 </section>
-
+ 
 <div class="cosmic-divider"></div>
-
-<!-- About -->
+ 
 <section id="about">
   <div class="container">
     <p class="section-label">Entity Profile</p>
@@ -853,7 +282,6 @@
         <div class="about-avatar-box">
           <svg class="about-pops-svg" viewBox="0 0 200 230" xmlns="http://www.w3.org/2000/svg">
             <rect x="78" y="178" width="44" height="35" rx="4" fill="#164d24"/>
-            <rect x="85" y="178" width="30" height="6" rx="2" fill="#0d3318"/>
             <path d="M32 80 Q32 42 100 40 Q168 42 168 80 L172 158 Q172 185 100 188 Q28 185 28 158 Z" fill="#1f6e32"/>
             <path d="M38 90 Q100 78 162 90" fill="none" stroke="#154d22" stroke-width="8" stroke-linecap="round"/>
             <ellipse cx="100" cy="60" rx="38" ry="16" fill="rgba(57,255,106,0.12)" transform="rotate(-5,100,60)"/>
@@ -874,9 +302,6 @@
             <circle cx="130" cy="112" r="3" fill="#000d04"/>
             <circle cx="72" cy="110" r="1.8" fill="rgba(255,255,255,0.8)"/>
             <circle cx="132" cy="110" r="1.8" fill="rgba(255,255,255,0.8)"/>
-            <path d="M93 132 Q100 140 107 132" fill="none" stroke="#0d3d1a" stroke-width="2.5" stroke-linecap="round"/>
-            <circle cx="91" cy="132" r="3.5" fill="#154d22"/>
-            <circle cx="109" cy="132" r="3.5" fill="#154d22"/>
             <path d="M72 155 L95 153 Q100 155 105 153 L128 155" fill="none" stroke="#0a2e12" stroke-width="3" stroke-linecap="round"/>
             <path d="M108 153 Q118 149 125 152" fill="none" stroke="#0a2e12" stroke-width="2.5" stroke-linecap="round"/>
             <path d="M32 72 L42 68 L48 74 L58 70" fill="none" stroke="rgba(57,255,106,0.35)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
@@ -891,30 +316,19 @@
         </div>
       </div>
       <div class="about-text">
-        <p>
-          Pops is the <em>enigmatic AI companion</em> at the heart of <em>When the Earth Had a Moon</em> — green-skinned, chrome-domed, peering through gold-rimmed glasses with barely concealed impatience. Obstinate. Sarcastic. Occasionally insufferable. Exactly the kind of AI you'd want watching your back in a crisis.
-        </p>
-        <p>
-          The world's first permanent moon base has been established by <strong>MoonX Ltd.</strong>, a joint venture with American, Chinese, and Russian government shareholders — founded to promote the peaceful use and development of the moon for all. But political tensions rise, and the specter of total annihilation hangs over everything.
-        </p>
-        <p>
-          A young nuclear physicist named <strong>Rex</strong> works on the base, developing nuclear fusion using helium-3. But personal tragedy pulls his mind from his work: his fiancée <strong>Avery</strong>, captain of the first mission to Mars launched from the moon, has gone missing.
-        </p>
-        <p>
-          Rex teams up with Pops to unravel the mystery behind the missing ship. What begins as a search for answers becomes a <em>deadly chase through secrets and shadowy military conspiracies</em>. In the vast emptiness of space, nowhere is safe — and the truth might be the most dangerous frontier of all.
-        </p>
-        <p>
-          The music on this site is the soundtrack to that journey. Come join Pops. He won't make it easy. But he'll make it worth it.
-        </p>
+        <p>Pops is the <em>enigmatic AI companion</em> at the heart of <em>When the Earth Had a Moon</em> — green-skinned, chrome-domed, peering through gold-rimmed glasses with barely concealed impatience. Obstinate. Sarcastic. Occasionally insufferable. Exactly the kind of AI you'd want watching your back in a crisis.</p>
+        <p>The world's first permanent moon base has been established by <strong>MoonX Ltd.</strong>, a joint venture with American, Chinese, and Russian government shareholders — founded to promote the peaceful use and development of the moon for all. But political tensions rise, and the specter of total annihilation hangs over everything.</p>
+        <p>A young nuclear physicist named <strong>Rex</strong> works on the base, developing nuclear fusion using helium-3. But personal tragedy pulls his mind from his work: his fiancée <strong>Avery</strong>, captain of the first mission to Mars launched from the moon, has gone missing.</p>
+        <p>Rex teams up with Pops to unravel the mystery behind the missing ship. What begins as a search for answers becomes a <em>deadly chase through secrets and shadowy military conspiracies</em>. In the vast emptiness of space, nowhere is safe — and the truth might be the most dangerous frontier of all.</p>
+        <p>The music on this site is the soundtrack to that journey. Come join Pops. He won't make it easy. But he'll make it worth it.</p>
         <a href="https://amcunning.github.io" target="_blank" class="btn btn-secondary" style="margin-top:1rem;">Visit Author Site →</a>
       </div>
     </div>
   </div>
 </section>
-
+ 
 <div class="cosmic-divider"></div>
-
-<!-- Book -->
+ 
 <section id="book">
   <div class="container">
     <p class="section-label">The Source</p>
@@ -923,12 +337,8 @@
       <div class="book-info">
         <h3>When the Earth Had a Moon</h3>
         <div class="book-author">by A.M. Cunning</div>
-        <p>
-          A sci-fi thriller set on humanity's first moon base — where a missing Mars mission, nuclear secrets, and shadowy military conspiracies collide. Rex and his sarcastic AI companion Pops must uncover the truth before it destroys them both.
-        </p>
-        <p>
-          Available now on Amazon. Scan the code or click below to get your copy.
-        </p>
+        <p>A sci-fi thriller set on humanity's first moon base — where a missing Mars mission, nuclear secrets, and shadowy military conspiracies collide. Rex and his sarcastic AI companion Pops must uncover the truth before it destroys them both.</p>
+        <p>Available now on Amazon. Scan the code or click below to get your copy.</p>
         <a href="https://bit.ly/4cj14sZ" target="_blank" class="btn btn-primary">Get it on Amazon</a>
       </div>
       <div class="book-qr">
@@ -940,8 +350,7 @@
     </div>
   </div>
 </section>
-
-<!-- Footer -->
+ 
 <footer>
   <div class="container">
     <div class="footer-inner">
@@ -957,83 +366,27 @@
     <div class="footer-copy">© 2026 A.M. Cunning · POPS.AI · Music for a moonless world</div>
   </div>
 </footer>
-
+ 
 <script>
-  // Custom cursor
   const cursor = document.getElementById('cursor');
   const dot = document.getElementById('cursorDot');
-  let mx = 0, my = 0, cx = 0, cy = 0;
-  document.addEventListener('mousemove', e => { mx = e.clientX; my = e.clientY; });
-  function animCursor() {
-    cx += (mx - cx) * 0.12;
-    cy += (my - cy) * 0.12;
-    cursor.style.left = (cx - 9) + 'px';
-    cursor.style.top = (cy - 9) + 'px';
-    dot.style.left = (mx - 2) + 'px';
-    dot.style.top = (my - 2) + 'px';
-    requestAnimationFrame(animCursor);
-  }
+  let mx=0,my=0,cx=0,cy=0;
+  document.addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY;});
+  function animCursor(){cx+=(mx-cx)*0.12;cy+=(my-cy)*0.12;cursor.style.left=(cx-9)+'px';cursor.style.top=(cy-9)+'px';dot.style.left=(mx-2)+'px';dot.style.top=(my-2)+'px';requestAnimationFrame(animCursor);}
   animCursor();
-  document.querySelectorAll('a, button').forEach(el => {
-    el.addEventListener('mouseenter', () => cursor.style.transform = 'scale(2.5)');
-    el.addEventListener('mouseleave', () => cursor.style.transform = 'scale(1)');
-  });
-
-  // Starfield
-  const canvas = document.getElementById('starfield');
-  const ctx = canvas.getContext('2d');
-  let stars = [];
-  function resize() {
-    canvas.width = window.innerWidth;
-    canvas.height = window.innerHeight;
-  }
-  function initStars() {
-    stars = [];
-    for (let i = 0; i < 220; i++) {
-      stars.push({
-        x: Math.random() * canvas.width,
-        y: Math.random() * canvas.height,
-        r: Math.random() * 1.5 + 0.2,
-        alpha: Math.random() * 0.8 + 0.1,
-        speed: Math.random() * 0.015 + 0.003,
-        phase: Math.random() * Math.PI * 2,
-        color: Math.random() > 0.92 ? '#b24dff' : Math.random() > 0.85 ? '#39ff6a' : '#ffffff'
-      });
-    }
-  }
-  let t = 0;
-  function drawStars() {
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
-    t += 0.01;
-    stars.forEach(s => {
-      const a = s.alpha * (0.5 + 0.5 * Math.sin(t * s.speed * 60 + s.phase));
-      ctx.beginPath();
-      ctx.arc(s.x, s.y, s.r, 0, Math.PI * 2);
-      ctx.fillStyle = s.color;
-      ctx.globalAlpha = a;
-      ctx.fill();
-    });
-    ctx.globalAlpha = 1;
-    requestAnimationFrame(drawStars);
-  }
-  window.addEventListener('resize', () => { resize(); initStars(); });
-  resize(); initStars(); drawStars();
-
-  // Scroll reveal
-  const observer = new IntersectionObserver(entries => {
-    entries.forEach(e => {
-      if (e.isIntersecting) {
-        e.target.style.opacity = '1';
-        e.target.style.transform = 'translateY(0)';
-      }
-    });
-  }, { threshold: 0.1 });
-  document.querySelectorAll('.track-card, .about-avatar-box, .book-card').forEach(el => {
-    el.style.opacity = '0';
-    el.style.transform = 'translateY(30px)';
-    el.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
-    observer.observe(el);
-  });
+  document.querySelectorAll('a,button').forEach(el=>{el.addEventListener('mouseenter',()=>cursor.style.transform='scale(2.5)');el.addEventListener('mouseleave',()=>cursor.style.transform='scale(1)');});
+  const canvas=document.getElementById('starfield');
+  const ctx=canvas.getContext('2d');
+  let stars=[];
+  function resize(){canvas.width=window.innerWidth;canvas.height=window.innerHeight;}
+  function initStars(){stars=[];for(let i=0;i<220;i++){stars.push({x:Math.random()*canvas.width,y:Math.random()*canvas.height,r:Math.random()*1.5+0.2,alpha:Math.random()*0.8+0.1,speed:Math.random()*0.015+0.003,phase:Math.random()*Math.PI*2,color:Math.random()>0.92?'#b24dff':Math.random()>0.85?'#39ff6a':'#ffffff'});}}
+  let t=0;
+  function drawStars(){ctx.clearRect(0,0,canvas.width,canvas.height);t+=0.01;stars.forEach(s=>{const a=s.alpha*(0.5+0.5*Math.sin(t*s.speed*60+s.phase));ctx.beginPath();ctx.arc(s.x,s.y,s.r,0,Math.PI*2);ctx.fillStyle=s.color;ctx.globalAlpha=a;ctx.fill();});ctx.globalAlpha=1;requestAnimationFrame(drawStars);}
+  window.addEventListener('resize',()=>{resize();initStars();});
+  resize();initStars();drawStars();
+  const observer=new IntersectionObserver(entries=>{entries.forEach(e=>{if(e.isIntersecting){e.target.style.opacity='1';e.target.style.transform='translateY(0)';}});},{threshold:0.1});
+  document.querySelectorAll('.track-card,.about-avatar-box,.book-card').forEach(el=>{el.style.opacity='0';el.style.transform='translateY(30px)';el.style.transition='opacity 0.6s ease,transform 0.6s ease';observer.observe(el);});
 </script>
 </body>
 </html>
+ 
