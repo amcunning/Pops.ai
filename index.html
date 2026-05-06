@@ -9,96 +9,92 @@
   <style>
     :root {
       --green:#00ff88; --green-dim:#00cc66; --green-dark:#003322; --green-faint:#001a0f;
-      --amber:#ffaa00; --bg:#020d06; --border:rgba(0,255,136,0.15);
-      --violet:#8b5cf6; --white:#eef4ff; --silver:#c8d8f0;
+      --amber:#ffaa00; --bg:#020d06; --border:rgba(0,255,136,0.15); --silver:#c8d8f0;
     }
     *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
     html{scroll-behavior:smooth;}
     body{background:var(--bg);color:var(--green);font-family:'Share Tech Mono',monospace;overflow-x:hidden;}
-
     body::before{content:'';position:fixed;inset:0;background:repeating-linear-gradient(0deg,transparent,transparent 2px,rgba(0,0,0,0.06) 2px,rgba(0,0,0,0.06) 4px);pointer-events:none;z-index:999;}
     body::after{content:'';position:fixed;inset:0;background-image:linear-gradient(rgba(0,255,136,0.02) 1px,transparent 1px),linear-gradient(90deg,rgba(0,255,136,0.02) 1px,transparent 1px);background-size:40px 40px;pointer-events:none;}
 
-    nav{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;align-items:center;justify-content:space-between;padding:1.2rem 3rem;background:rgba(2,13,6,0.92);backdrop-filter:blur(10px);border-bottom:1px solid var(--border);}
+    nav{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;align-items:center;justify-content:space-between;padding:1rem 3rem;background:rgba(2,13,6,0.95);backdrop-filter:blur(10px);border-bottom:1px solid var(--border);}
     .nav-logo{font-family:'Orbitron',monospace;font-size:1rem;font-weight:900;color:var(--green);text-decoration:none;letter-spacing:0.2em;text-shadow:0 0 10px var(--green);}
     .nav-links{display:flex;gap:1.8rem;list-style:none;align-items:center;}
-    .nav-links a{color:rgba(0,255,136,0.6);text-decoration:none;font-size:0.7rem;letter-spacing:0.15em;text-transform:uppercase;transition:color 0.3s;}
+    .nav-links a{color:rgba(0,255,136,0.55);text-decoration:none;font-size:0.7rem;letter-spacing:0.15em;text-transform:uppercase;transition:color 0.3s;}
     .nav-links a:hover{color:var(--green);}
-    .nav-talk-btn{border:1px solid var(--green) !important;color:var(--green) !important;padding:0.4rem 1rem;border-radius:2px;transition:all 0.3s !important;text-shadow:0 0 8px rgba(0,255,136,0.4);}
-    .nav-talk-btn:hover{background:rgba(0,255,136,0.1) !important;box-shadow:0 0 12px rgba(0,255,136,0.3) !important;}
-
-    section{position:relative;z-index:1;}
+    .nav-talk{border:1px solid var(--green) !important;color:var(--green) !important;padding:0.38rem 0.9rem;border-radius:2px;text-shadow:0 0 8px rgba(0,255,136,0.4);}
+    .nav-talk:hover{background:rgba(0,255,136,0.08) !important;box-shadow:0 0 12px rgba(0,255,136,0.25) !important;}
 
     /* HERO */
-    #hero{min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:6rem 2rem 4rem;overflow:hidden;}
-    .hero-glow{position:absolute;width:500px;height:500px;border-radius:50%;background:radial-gradient(circle,rgba(0,255,136,0.08) 0%,transparent 70%);top:50%;left:50%;transform:translate(-50%,-50%);pointer-events:none;}
-    .hero-eyebrow{font-size:0.65rem;letter-spacing:0.35em;color:rgba(0,255,136,0.4);text-transform:uppercase;margin-bottom:1rem;animation:fadeUp 0.8s ease 0.2s both;}
-    .hero-title{font-family:'Orbitron',monospace;font-size:clamp(4rem,12vw,8rem);font-weight:900;color:var(--green);letter-spacing:0.2em;line-height:1;text-shadow:0 0 40px rgba(0,255,136,0.4),0 0 80px rgba(0,255,136,0.15);animation:fadeUp 0.8s ease 0.3s both;}
-    .hero-sub{font-size:0.72rem;letter-spacing:0.2em;color:var(--amber);text-transform:uppercase;margin-top:0.75rem;animation:fadeUp 0.8s ease 0.4s both;}
-    .hero-tagline{font-family:'Lora',serif;font-style:italic;font-size:1.1rem;color:rgba(0,255,136,0.6);max-width:500px;margin:2rem auto;line-height:1.7;animation:fadeUp 0.8s ease 0.5s both;}
+    #hero{min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:6rem 2rem 4rem;position:relative;overflow:hidden;}
+    .hero-glow{position:absolute;width:600px;height:600px;border-radius:50%;background:radial-gradient(circle,rgba(0,255,136,0.07) 0%,transparent 70%);top:50%;left:50%;transform:translate(-50%,-50%);pointer-events:none;}
+    .hero-avatar{width:160px;height:184px;filter:drop-shadow(0 0 20px rgba(0,255,136,0.5));animation:popsPulse 3s ease-in-out infinite;margin-bottom:1.5rem;}
+    @keyframes popsPulse{0%,100%{filter:drop-shadow(0 0 20px rgba(0,255,136,0.5));}50%{filter:drop-shadow(0 0 40px rgba(0,255,136,0.8)) drop-shadow(0 0 80px rgba(0,255,136,0.15));}}
+    .hero-eyebrow{font-size:0.62rem;letter-spacing:0.35em;color:rgba(0,255,136,0.35);text-transform:uppercase;margin-bottom:0.75rem;animation:fadeUp 0.8s ease 0.2s both;}
+    .hero-title{font-family:'Orbitron',monospace;font-size:clamp(4rem,12vw,8rem);font-weight:900;color:var(--green);letter-spacing:0.2em;line-height:1;text-shadow:0 0 40px rgba(0,255,136,0.4),0 0 80px rgba(0,255,136,0.12);animation:fadeUp 0.8s ease 0.3s both;}
+    .hero-sub{font-size:0.68rem;letter-spacing:0.2em;color:var(--amber);text-transform:uppercase;margin-top:0.6rem;animation:fadeUp 0.8s ease 0.4s both;}
+    .hero-tagline{font-family:'Lora',serif;font-style:italic;font-size:1.05rem;color:rgba(0,255,136,0.55);max-width:480px;margin:1.75rem auto;line-height:1.7;animation:fadeUp 0.8s ease 0.5s both;}
     .hero-cta{display:flex;gap:1rem;justify-content:center;flex-wrap:wrap;animation:fadeUp 0.8s ease 0.6s both;}
-
-    .btn{display:inline-block;font-family:'Orbitron',monospace;font-size:0.7rem;letter-spacing:0.18em;text-transform:uppercase;text-decoration:none;padding:0.85rem 2rem;border-radius:2px;transition:all 0.3s;cursor:pointer;border:none;}
-    .btn-pops{background:transparent;border:1px solid var(--green);color:var(--green);text-shadow:0 0 10px rgba(0,255,136,0.5);box-shadow:0 0 20px rgba(0,255,136,0.1);}
+    .btn-pops{display:inline-block;font-family:'Orbitron',monospace;font-size:0.7rem;letter-spacing:0.18em;text-transform:uppercase;text-decoration:none;padding:0.85rem 2rem;border-radius:2px;background:transparent;border:1px solid var(--green);color:var(--green);text-shadow:0 0 10px rgba(0,255,136,0.5);box-shadow:0 0 20px rgba(0,255,136,0.1);transition:all 0.3s;}
     .btn-pops:hover{background:rgba(0,255,136,0.08);box-shadow:0 0 40px rgba(0,255,136,0.35);transform:translateY(-2px);}
-    .btn-secondary{background:transparent;border:1px solid rgba(0,255,136,0.2);color:rgba(0,255,136,0.5);}
-    .btn-secondary:hover{border-color:rgba(0,255,136,0.5);color:var(--green-dim);transform:translateY(-2px);}
+    .btn-ghost{display:inline-block;font-family:'Orbitron',monospace;font-size:0.7rem;letter-spacing:0.18em;text-transform:uppercase;text-decoration:none;padding:0.85rem 2rem;border-radius:2px;background:transparent;border:1px solid rgba(0,255,136,0.2);color:rgba(0,255,136,0.45);transition:all 0.3s;}
+    .btn-ghost:hover{border-color:rgba(0,255,136,0.5);color:var(--green-dim);transform:translateY(-2px);}
 
-    .pops-avatar-hero{width:120px;height:120px;filter:drop-shadow(0 0 20px rgba(0,255,136,0.5));animation:popsPulse 3s ease-in-out infinite;margin-bottom:1.5rem;}
-    @keyframes popsPulse{0%,100%{filter:drop-shadow(0 0 20px rgba(0,255,136,0.5));}50%{filter:drop-shadow(0 0 40px rgba(0,255,136,0.8)) drop-shadow(0 0 80px rgba(0,255,136,0.2));}}
+    /* TALK BANNER */
+    #talk-banner{background:var(--green-faint);border-top:1px solid var(--border);border-bottom:1px solid var(--border);position:relative;z-index:1;}
+    .talk-inner{max-width:900px;margin:0 auto;padding:3.5rem 2rem;display:grid;grid-template-columns:1fr auto;gap:3rem;align-items:center;}
+    .talk-left h2{font-family:'Orbitron',monospace;font-size:clamp(1.2rem,2.5vw,1.8rem);font-weight:900;color:var(--green);letter-spacing:0.1em;margin-bottom:0.6rem;}
+    .talk-left p{font-family:'Lora',serif;font-style:italic;color:rgba(0,255,136,0.55);font-size:0.95rem;line-height:1.6;}
+    .talk-quote{border-left:2px solid var(--amber);padding-left:1rem;font-size:0.68rem;letter-spacing:0.08em;color:var(--amber);line-height:1.8;margin-top:0.85rem;}
+    .talk-right{display:flex;flex-direction:column;align-items:center;gap:0.75rem;}
+    .talk-btn{font-family:'Orbitron',monospace;font-size:0.72rem;letter-spacing:0.18em;text-transform:uppercase;padding:0.9rem 2.2rem;background:transparent;border:1px solid var(--green);color:var(--green);text-decoration:none;border-radius:2px;transition:all 0.3s;text-shadow:0 0 10px rgba(0,255,136,0.4);box-shadow:0 0 16px rgba(0,255,136,0.08);white-space:nowrap;display:inline-block;}
+    .talk-btn:hover{background:rgba(0,255,136,0.08);box-shadow:0 0 35px rgba(0,255,136,0.3);transform:translateY(-2px);}
+    .talk-note{font-size:0.56rem;letter-spacing:0.12em;color:rgba(0,255,136,0.22);text-align:center;}
 
-    /* TALK TO POPS BANNER */
-    #talk-banner{background:var(--green-faint);border-top:1px solid var(--border);border-bottom:1px solid var(--border);}
-    .talk-inner{max-width:900px;margin:0 auto;padding:4rem 2rem;display:grid;grid-template-columns:1fr auto;gap:3rem;align-items:center;}
-    .talk-left h2{font-family:'Orbitron',monospace;font-size:clamp(1.4rem,3vw,2rem);font-weight:900;color:var(--green);letter-spacing:0.1em;margin-bottom:0.75rem;text-shadow:0 0 20px rgba(0,255,136,0.3);}
-    .talk-left p{font-family:'Lora',serif;font-style:italic;color:rgba(0,255,136,0.6);font-size:1rem;line-height:1.6;}
-    .talk-quote{border-left:2px solid var(--amber);padding-left:1rem;font-size:0.72rem;letter-spacing:0.08em;color:var(--amber);line-height:1.8;margin-top:1rem;}
-    .talk-right{display:flex;flex-direction:column;align-items:center;gap:1rem;}
-    .talk-pops-btn{font-family:'Orbitron',monospace;font-size:0.75rem;letter-spacing:0.2em;text-transform:uppercase;padding:1rem 2.5rem;background:transparent;border:1px solid var(--green);color:var(--green);text-decoration:none;border-radius:2px;transition:all 0.3s;text-shadow:0 0 10px rgba(0,255,136,0.5);box-shadow:0 0 20px rgba(0,255,136,0.1);white-space:nowrap;display:inline-block;text-align:center;}
-    .talk-pops-btn:hover{background:rgba(0,255,136,0.08);box-shadow:0 0 40px rgba(0,255,136,0.35);transform:translateY(-3px);}
-    .talk-note{font-size:0.58rem;letter-spacing:0.12em;color:rgba(0,255,136,0.25);text-align:center;}
-
-    /* MUSIC */
-    #music{padding:5rem 2rem;}
-    .section-inner{max-width:1100px;margin:0 auto;}
-    .section-eyebrow{font-size:0.62rem;letter-spacing:0.3em;color:rgba(0,255,136,0.4);text-transform:uppercase;margin-bottom:0.5rem;}
-    .section-title{font-family:'Orbitron',monospace;font-size:clamp(1.4rem,3vw,2.2rem);font-weight:700;color:var(--green);margin-bottom:3rem;letter-spacing:0.1em;}
-    .track{display:grid;grid-template-columns:auto 1fr;gap:1.5rem;align-items:center;border-bottom:1px solid var(--border);padding:1.5rem 0;}
-    .track:last-child{border-bottom:none;}
-    .track-num{font-family:'Orbitron',monospace;font-size:0.65rem;color:rgba(0,255,136,0.3);letter-spacing:0.1em;width:3rem;text-align:right;}
-    .track-info h3{font-size:0.85rem;color:var(--green);letter-spacing:0.1em;margin-bottom:0.75rem;}
-    .track-info iframe{width:100%;max-width:640px;aspect-ratio:16/9;display:block;border:none;}
+    /* MUSIC — horizontal grid matching original */
+    #music{position:relative;z-index:1;padding:5rem 2rem;}
+    .section-inner{max-width:1200px;margin:0 auto;}
+    .section-eyebrow{font-size:0.6rem;letter-spacing:0.3em;color:rgba(0,255,136,0.35);text-transform:uppercase;margin-bottom:0.4rem;}
+    .section-title{font-family:'Orbitron',monospace;font-size:clamp(1.3rem,2.5vw,2rem);font-weight:700;color:var(--green);margin-bottom:2.5rem;letter-spacing:0.1em;}
+    .video-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:1.5rem;}
+    .video-card{border:1px solid var(--border);background:rgba(0,255,136,0.02);border-radius:3px;overflow:hidden;transition:border-color 0.3s,transform 0.3s;}
+    .video-card:hover{border-color:rgba(0,255,136,0.4);transform:translateY(-3px);}
+    .video-card iframe{width:100%;aspect-ratio:16/9;display:block;border:none;}
+    .video-label{padding:0.75rem 1rem;font-size:0.65rem;letter-spacing:0.15em;color:rgba(0,255,136,0.5);}
+    .video-label span{color:var(--amber);margin-right:0.5rem;}
 
     /* ABOUT */
-    #about{background:var(--green-faint);border-top:1px solid var(--border);border-bottom:1px solid var(--border);}
-    .about-inner{max-width:800px;margin:0 auto;padding:5rem 2rem;display:grid;grid-template-columns:auto 1fr;gap:3rem;align-items:start;}
-    .about-avatar{width:140px;height:140px;filter:drop-shadow(0 0 16px rgba(0,255,136,0.4));animation:popsPulse 3s ease-in-out infinite;}
-    .about-text h2{font-family:'Orbitron',monospace;font-size:1.5rem;font-weight:900;color:var(--green);letter-spacing:0.15em;margin-bottom:1rem;}
-    .about-text p{font-family:'Lora',serif;font-size:0.95rem;color:rgba(0,255,136,0.7);line-height:1.8;margin-bottom:1rem;}
-    .about-tags{display:flex;flex-wrap:wrap;gap:0.5rem;margin-top:1rem;}
-    .tag{font-size:0.58rem;letter-spacing:0.15em;text-transform:uppercase;border:1px solid var(--border);color:var(--amber);padding:0.3rem 0.75rem;border-radius:2px;}
+    #about{background:var(--green-faint);border-top:1px solid var(--border);border-bottom:1px solid var(--border);position:relative;z-index:1;}
+    .about-inner{max-width:800px;margin:0 auto;padding:5rem 2rem;display:grid;grid-template-columns:160px 1fr;gap:3rem;align-items:start;}
+    .about-avatar{width:160px;height:184px;filter:drop-shadow(0 0 16px rgba(0,255,136,0.4));animation:popsPulse 3s ease-in-out infinite;}
+    .about-text h2{font-family:'Orbitron',monospace;font-size:1.4rem;font-weight:900;color:var(--green);letter-spacing:0.15em;margin-bottom:1rem;}
+    .about-text p{font-family:'Lora',serif;font-size:0.92rem;color:rgba(0,255,136,0.65);line-height:1.8;margin-bottom:0.9rem;}
+    .about-tags{display:flex;flex-wrap:wrap;gap:0.5rem;margin-top:0.75rem;}
+    .tag{font-size:0.56rem;letter-spacing:0.15em;text-transform:uppercase;border:1px solid var(--border);color:var(--amber);padding:0.28rem 0.7rem;border-radius:2px;}
 
     /* BOOK */
-    #book{padding:5rem 2rem;}
+    #book{position:relative;z-index:1;padding:5rem 2rem;}
     .book-inner{max-width:800px;margin:0 auto;display:grid;grid-template-columns:180px 1fr;gap:3rem;align-items:start;}
-    .book-cover img{width:100%;border-radius:3px;box-shadow:0 20px 50px rgba(0,0,0,0.8);}
-    .book-info h2{font-family:'Orbitron',monospace;font-size:1.1rem;font-weight:700;color:var(--green);letter-spacing:0.1em;margin-bottom:0.5rem;}
-    .book-info .by{font-size:0.65rem;letter-spacing:0.2em;color:rgba(0,255,136,0.4);text-transform:uppercase;margin-bottom:1.2rem;}
-    .book-info p{font-family:'Lora',serif;font-size:0.92rem;color:rgba(0,255,136,0.65);line-height:1.75;margin-bottom:1rem;}
-    .book-btn{display:inline-block;font-family:'Orbitron',monospace;font-size:0.65rem;letter-spacing:0.15em;text-transform:uppercase;padding:0.75rem 1.75rem;border:1px solid var(--amber);color:var(--amber);text-decoration:none;border-radius:2px;transition:all 0.3s;margin-top:0.5rem;}
-    .book-btn:hover{background:rgba(255,170,0,0.08);box-shadow:0 0 20px rgba(255,170,0,0.2);transform:translateY(-2px);}
+    .book-cover img{width:100%;border-radius:3px;box-shadow:0 20px 50px rgba(0,0,0,0.8);transition:transform 0.3s;}
+    .book-cover img:hover{transform:translateY(-6px);}
+    .book-info h2{font-family:'Orbitron',monospace;font-size:1.1rem;font-weight:700;color:var(--green);letter-spacing:0.1em;margin-bottom:0.4rem;}
+    .book-info .by{font-size:0.62rem;letter-spacing:0.2em;color:rgba(0,255,136,0.35);text-transform:uppercase;margin-bottom:1rem;}
+    .book-info p{font-family:'Lora',serif;font-size:0.9rem;color:rgba(0,255,136,0.6);line-height:1.75;margin-bottom:0.85rem;}
+    .book-btn{display:inline-block;font-family:'Orbitron',monospace;font-size:0.62rem;letter-spacing:0.15em;text-transform:uppercase;padding:0.7rem 1.6rem;border:1px solid var(--amber);color:var(--amber);text-decoration:none;border-radius:2px;transition:all 0.3s;margin-top:0.5rem;}
+    .book-btn:hover{background:rgba(255,170,0,0.08);box-shadow:0 0 18px rgba(255,170,0,0.2);transform:translateY(-2px);}
 
-    footer{border-top:1px solid var(--border);padding:2rem 3rem;display:flex;justify-content:space-between;align-items:center;font-size:0.6rem;color:rgba(0,255,136,0.2);letter-spacing:0.12em;position:relative;z-index:1;}
-    footer a{color:rgba(0,255,136,0.3);text-decoration:none;}
+    footer{border-top:1px solid var(--border);padding:1.8rem 3rem;display:flex;justify-content:space-between;align-items:center;font-size:0.58rem;color:rgba(0,255,136,0.18);letter-spacing:0.12em;position:relative;z-index:1;}
+    footer a{color:rgba(0,255,136,0.28);text-decoration:none;transition:color 0.3s;}
     footer a:hover{color:var(--green-dim);}
 
-    @keyframes fadeUp{from{opacity:0;transform:translateY(20px);}to{opacity:1;transform:translateY(0);}}
-    .fade-in{opacity:0;transform:translateY(16px);transition:opacity 0.6s ease,transform 0.6s ease;}
+    @keyframes fadeUp{from{opacity:0;transform:translateY(18px);}to{opacity:1;transform:translateY(0);}}
+    .fade-in{opacity:0;transform:translateY(14px);transition:opacity 0.6s ease,transform 0.6s ease;}
     .fade-in.visible{opacity:1;transform:none;}
 
     @media(max-width:768px){
       nav{padding:1rem 1.5rem;}
-      .nav-links{gap:1rem;}
+      .nav-links{gap:0.8rem;}
+      .nav-talk{display:none;}
       .talk-inner{grid-template-columns:1fr;text-align:center;}
       .talk-quote{text-align:left;}
       .about-inner{grid-template-columns:1fr;text-align:center;}
@@ -117,47 +113,69 @@
     <li><a href="#about">About Pops</a></li>
     <li><a href="#book">The Book</a></li>
     <li><a href="https://amcunning.github.io" target="_blank">Author Site</a></li>
-    <li><a href="chat.html" class="nav-talk-btn">Talk to POPS</a></li>
+    <li><a href="chat.html" class="nav-talk">Talk to POPS</a></li>
   </ul>
 </nav>
 
 <section id="hero">
   <div class="hero-glow"></div>
-  <svg class="pops-avatar-hero" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
-    <rect x="15" y="20" width="70" height="65" rx="10" fill="#003322" stroke="#00ff88" stroke-width="2"/>
-    <rect x="25" y="35" width="20" height="14" rx="3" fill="#001a0f" stroke="#ffaa00" stroke-width="1.5"/>
-    <rect x="55" y="35" width="20" height="14" rx="3" fill="#001a0f" stroke="#ffaa00" stroke-width="1.5"/>
-    <circle cx="35" cy="42" r="4" fill="#00ff88" opacity="0.9"/>
-    <circle cx="65" cy="42" r="4" fill="#00ff88" opacity="0.9"/>
-    <line x1="45" y1="42" x2="55" y2="42" stroke="#ffaa00" stroke-width="1.5"/>
-    <path d="M35 62 Q50 58 65 62" stroke="#00ff88" stroke-width="1.5" fill="none"/>
-    <rect x="42" y="15" width="16" height="6" rx="2" fill="#003322" stroke="#00ff88" stroke-width="1.5"/>
-    <circle cx="50" cy="12" r="3" fill="#00ff88" opacity="0.6"/>
-    <rect x="8" y="38" width="8" height="16" rx="2" fill="#003322" stroke="#00ff88" stroke-width="1.5"/>
-    <rect x="84" y="38" width="8" height="16" rx="2" fill="#003322" stroke="#00ff88" stroke-width="1.5"/>
+  <svg class="hero-avatar" viewBox="0 0 200 230" xmlns="http://www.w3.org/2000/svg">
+    <title>Pops - AI Avatar</title>
+    <rect x="78" y="178" width="44" height="35" rx="4" fill="#164d24"/>
+    <rect x="85" y="178" width="30" height="6" rx="2" fill="#0d3318"/>
+    <path d="M32 80 Q32 42 100 40 Q168 42 168 80 L172 158 Q172 185 100 188 Q28 185 28 158 Z" fill="#1f6e32"/>
+    <path d="M38 90 Q100 78 162 90" fill="none" stroke="#154d22" stroke-width="8" stroke-linecap="round"/>
+    <ellipse cx="100" cy="60" rx="38" ry="16" fill="rgba(57,255,106,0.12)" transform="rotate(-5,100,60)"/>
+    <path d="M28 105 L20 98 L18 118 L28 124 Z" fill="#175c27"/>
+    <path d="M172 105 L180 98 L182 118 L172 124 Z" fill="#175c27"/>
+    <path d="M24 104 L22 117" fill="none" stroke="#0d3318" stroke-width="1.5"/>
+    <path d="M176 104 L178 117" fill="none" stroke="#0d3318" stroke-width="1.5"/>
+    <path d="M48 88 L78 96" fill="none" stroke="#0a2e12" stroke-width="5" stroke-linecap="round"/>
+    <path d="M122 96 L152 88" fill="none" stroke="#0a2e12" stroke-width="5" stroke-linecap="round"/>
+    <rect x="44" y="97" width="52" height="30" rx="3" fill="rgba(0,15,8,0.75)" stroke="#d4a017" stroke-width="3"/>
+    <rect x="104" y="97" width="52" height="30" rx="3" fill="rgba(0,15,8,0.75)" stroke="#d4a017" stroke-width="3"/>
+    <line x1="96" y1="112" x2="104" y2="112" stroke="#d4a017" stroke-width="3"/>
+    <line x1="44" y1="112" x2="28" y2="108" stroke="#d4a017" stroke-width="2.5"/>
+    <line x1="156" y1="112" x2="172" y2="108" stroke="#d4a017" stroke-width="2.5"/>
+    <ellipse cx="70" cy="112" rx="14" ry="9" fill="#001a08"/>
+    <ellipse cx="130" cy="112" rx="14" ry="9" fill="#001a08"/>
+    <circle cx="70" cy="112" r="6" fill="#2adf58"/>
+    <circle cx="130" cy="112" r="6" fill="#2adf58"/>
+    <circle cx="70" cy="112" r="3" fill="#000d04"/>
+    <circle cx="130" cy="112" r="3" fill="#000d04"/>
+    <circle cx="72" cy="110" r="1.8" fill="rgba(255,255,255,0.8)"/>
+    <circle cx="132" cy="110" r="1.8" fill="rgba(255,255,255,0.8)"/>
+    <path d="M93 132 Q100 140 107 132" fill="none" stroke="#0d3d1a" stroke-width="2.5" stroke-linecap="round"/>
+    <circle cx="91" cy="132" r="3.5" fill="#154d22"/>
+    <circle cx="109" cy="132" r="3.5" fill="#154d22"/>
+    <path d="M72 155 L95 153 Q100 155 105 153 L128 155" fill="none" stroke="#0a2e12" stroke-width="3" stroke-linecap="round"/>
+    <path d="M108 153 Q118 149 125 152" fill="none" stroke="#0a2e12" stroke-width="2.5" stroke-linecap="round"/>
+    <path d="M32 72 L42 68 L48 74 L58 70" fill="none" stroke="rgba(57,255,106,0.35)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+    <circle cx="32" cy="72" r="2.5" fill="rgba(57,255,106,0.6)"/>
+    <path d="M168 72 L158 68 L152 74 L142 70" fill="none" stroke="rgba(57,255,106,0.35)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+    <circle cx="168" cy="72" r="2.5" fill="rgba(57,255,106,0.6)"/>
+    <rect x="92" y="40" width="16" height="5" rx="2" fill="rgba(57,255,106,0.2)" stroke="rgba(57,255,106,0.4)" stroke-width="1"/>
+    <line x1="100" y1="40" x2="100" y2="36" stroke="rgba(57,255,106,0.4)" stroke-width="1.5"/>
   </svg>
   <p class="hero-eyebrow">A.M. Cunning presents</p>
   <h1 class="hero-title">POPS</h1>
-  <p class="hero-sub">AI Unit · When the Earth Had a Moon · The Soundtrack</p>
-  <p class="hero-tagline">Meet the obstinate AI at the heart of the story. The music. The character. Now online.</p>
+  <p class="hero-sub">The Sound of When the Earth Had a Moon</p>
+  <p class="hero-tagline">Meet Pops — an obstinate and sarcastic AI avatar. The songs on this site are the soundtrack to <em>When the Earth Had a Moon</em>. Come join Pops on this musical journey.</p>
   <div class="hero-cta">
-    <a href="chat.html" class="btn btn-pops">Talk to POPS →</a>
-    <a href="#music" class="btn btn-secondary">The Music ↓</a>
+    <a href="chat.html" class="btn-pops">Talk to POPS →</a>
+    <a href="#music" class="btn-ghost">Listen Now ↓</a>
   </div>
 </section>
 
-<!-- TALK TO POPS BANNER -->
 <section id="talk-banner">
   <div class="talk-inner fade-in">
     <div class="talk-left">
       <h2>Talk to POPS</h2>
-      <p>The AI is online. He's not enthusiastic about it — but he's answering questions. Ask him about space, fusion, the moon, the Minerva, or why humans consistently disappoint him.</p>
-      <div class="talk-quote">
-        "You're welcome."<br>— P.O.P.S, upon activation
-      </div>
+      <p>The AI is online. He's not enthusiastic about it — but he's answering questions. Ask him about space, the moon, nuclear fusion, Rex, or why humans consistently disappoint him.</p>
+      <div class="talk-quote">"You're welcome."<br>— P.O.P.S, upon activation</div>
     </div>
     <div class="talk-right">
-      <a href="chat.html" class="talk-pops-btn">Open Chat →</a>
+      <a href="chat.html" class="talk-btn">Open Chat →</a>
       <p class="talk-note">if you think you can handle it</p>
     </div>
   </div>
@@ -167,43 +185,66 @@
   <div class="section-inner">
     <p class="section-eyebrow">Transmissions</p>
     <h2 class="section-title fade-in">The Music of Pops</h2>
-
-    <div class="track fade-in"><div class="track-num">// 01</div><div class="track-info"><h3>When the Earth Had a Moon</h3><iframe src="https://www.youtube.com/embed/yaQtKHRjoGo" allowfullscreen></iframe></div></div>
-    <div class="track fade-in"><div class="track-num">// 02</div><div class="track-info"><h3>Transmission II</h3><iframe src="https://www.youtube.com/embed/bDMWmICikbo" allowfullscreen></iframe></div></div>
-    <div class="track fade-in"><div class="track-num">// 03</div><div class="track-info"><h3>Transmission III</h3><iframe src="https://www.youtube.com/embed/dV8Kpc7sgJo" allowfullscreen></iframe></div></div>
-    <div class="track fade-in"><div class="track-num">// 04</div><div class="track-info"><h3>Transmission IV</h3><iframe src="https://www.youtube.com/embed/yENxRTgGLuU" allowfullscreen></iframe></div></div>
-    <div class="track fade-in"><div class="track-num">// 05</div><div class="track-info"><h3>Transmission V</h3><iframe src="https://www.youtube.com/embed/Hy_-m8v9Ia8" allowfullscreen></iframe></div></div>
-    <div class="track fade-in"><div class="track-num">// 06</div><div class="track-info"><h3>Transmission VI</h3><iframe src="https://www.youtube.com/embed/CMPMdZy2McU" allowfullscreen></iframe></div></div>
-    <div class="track fade-in"><div class="track-num">// 07</div><div class="track-info"><h3>Transmission VII</h3><iframe src="https://www.youtube.com/embed/9S1Czg6iRPk" allowfullscreen></iframe></div></div>
-    <div class="track fade-in"><div class="track-num">// 08</div><div class="track-info"><h3>Transmission VIII</h3><iframe src="https://www.youtube.com/embed/wQz0cLl_gx0" allowfullscreen></iframe></div></div>
-    <div class="track fade-in"><div class="track-num">// 09</div><div class="track-info"><h3>Transmission IX</h3><iframe src="https://www.youtube.com/embed/a0EVWprSBFE" allowfullscreen></iframe></div></div>
-    <div class="track fade-in"><div class="track-num">// 10</div><div class="track-info"><h3>Transmission X</h3><iframe src="https://www.youtube.com/embed/lWixnnaZWD0" allowfullscreen></iframe></div></div>
-    <div class="track fade-in"><div class="track-num">// 11</div><div class="track-info"><h3>Transmission XI</h3><iframe src="https://www.youtube.com/embed/k2BTjbXKKsM" allowfullscreen></iframe></div></div>
-    <div class="track fade-in"><div class="track-num">// 12</div><div class="track-info"><h3>Transmission XII</h3><iframe src="https://www.youtube.com/embed/4-IPyMv--hY" allowfullscreen></iframe></div></div>
-    <div class="track fade-in"><div class="track-num">// 13</div><div class="track-info"><h3>Transmission XIII</h3><iframe src="https://www.youtube.com/embed/U4NteIGzcyE" allowfullscreen></iframe></div></div>
-    <div class="track fade-in"><div class="track-num">// 14</div><div class="track-info"><h3>Transmission XIV</h3><iframe src="https://www.youtube.com/embed/4lOdkqqqUbQ" allowfullscreen></iframe></div></div>
+    <div class="video-grid">
+      <div class="video-card fade-in"><iframe src="https://www.youtube.com/embed/yaQtKHRjoGo" allowfullscreen></iframe><div class="video-label"><span>// 01</span>When the Earth Had a Moon</div></div>
+      <div class="video-card fade-in"><iframe src="https://www.youtube.com/embed/bDMWmICikbo" allowfullscreen></iframe><div class="video-label"><span>// 02</span>Transmission II</div></div>
+      <div class="video-card fade-in"><iframe src="https://www.youtube.com/embed/dV8Kpc7sgJo" allowfullscreen></iframe><div class="video-label"><span>// 03</span>Transmission III</div></div>
+      <div class="video-card fade-in"><iframe src="https://www.youtube.com/embed/yENxRTgGLuU" allowfullscreen></iframe><div class="video-label"><span>// 04</span>Transmission IV</div></div>
+      <div class="video-card fade-in"><iframe src="https://www.youtube.com/embed/Hy_-m8v9Ia8" allowfullscreen></iframe><div class="video-label"><span>// 05</span>Transmission V</div></div>
+      <div class="video-card fade-in"><iframe src="https://www.youtube.com/embed/CMPMdZy2McU" allowfullscreen></iframe><div class="video-label"><span>// 06</span>Transmission VI</div></div>
+      <div class="video-card fade-in"><iframe src="https://www.youtube.com/embed/9S1Czg6iRPk" allowfullscreen></iframe><div class="video-label"><span>// 07</span>Transmission VII</div></div>
+      <div class="video-card fade-in"><iframe src="https://www.youtube.com/embed/wQz0cLl_gx0" allowfullscreen></iframe><div class="video-label"><span>// 08</span>Transmission VIII</div></div>
+      <div class="video-card fade-in"><iframe src="https://www.youtube.com/embed/a0EVWprSBFE" allowfullscreen></iframe><div class="video-label"><span>// 09</span>Transmission IX</div></div>
+      <div class="video-card fade-in"><iframe src="https://www.youtube.com/embed/lWixnnaZWD0" allowfullscreen></iframe><div class="video-label"><span>// 10</span>Transmission X</div></div>
+      <div class="video-card fade-in"><iframe src="https://www.youtube.com/embed/k2BTjbXKKsM" allowfullscreen></iframe><div class="video-label"><span>// 11</span>Transmission XI</div></div>
+      <div class="video-card fade-in"><iframe src="https://www.youtube.com/embed/4-IPyMv--hY" allowfullscreen></iframe><div class="video-label"><span>// 12</span>Transmission XII</div></div>
+      <div class="video-card fade-in"><iframe src="https://www.youtube.com/embed/U4NteIGzcyE" allowfullscreen></iframe><div class="video-label"><span>// 13</span>Transmission XIII</div></div>
+      <div class="video-card fade-in"><iframe src="https://www.youtube.com/embed/4lOdkqqqUbQ" allowfullscreen></iframe><div class="video-label"><span>// 14</span>Transmission XIV</div></div>
+    </div>
   </div>
 </section>
 
 <section id="about">
   <div class="about-inner fade-in">
-    <svg class="about-avatar" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
-      <rect x="15" y="20" width="70" height="65" rx="10" fill="#003322" stroke="#00ff88" stroke-width="2"/>
-      <rect x="25" y="35" width="20" height="14" rx="3" fill="#001a0f" stroke="#ffaa00" stroke-width="1.5"/>
-      <rect x="55" y="35" width="20" height="14" rx="3" fill="#001a0f" stroke="#ffaa00" stroke-width="1.5"/>
-      <circle cx="35" cy="42" r="4" fill="#00ff88" opacity="0.9"/>
-      <circle cx="65" cy="42" r="4" fill="#00ff88" opacity="0.9"/>
-      <line x1="45" y1="42" x2="55" y2="42" stroke="#ffaa00" stroke-width="1.5"/>
-      <path d="M35 62 Q50 58 65 62" stroke="#00ff88" stroke-width="1.5" fill="none"/>
-      <rect x="42" y="15" width="16" height="6" rx="2" fill="#003322" stroke="#00ff88" stroke-width="1.5"/>
-      <circle cx="50" cy="12" r="3" fill="#00ff88" opacity="0.6"/>
-      <rect x="8" y="38" width="8" height="16" rx="2" fill="#003322" stroke="#00ff88" stroke-width="1.5"/>
-      <rect x="84" y="38" width="8" height="16" rx="2" fill="#003322" stroke="#00ff88" stroke-width="1.5"/>
+    <svg class="about-avatar" viewBox="0 0 200 230" xmlns="http://www.w3.org/2000/svg">
+      <rect x="78" y="178" width="44" height="35" rx="4" fill="#164d24"/>
+      <rect x="85" y="178" width="30" height="6" rx="2" fill="#0d3318"/>
+      <path d="M32 80 Q32 42 100 40 Q168 42 168 80 L172 158 Q172 185 100 188 Q28 185 28 158 Z" fill="#1f6e32"/>
+      <path d="M38 90 Q100 78 162 90" fill="none" stroke="#154d22" stroke-width="8" stroke-linecap="round"/>
+      <ellipse cx="100" cy="60" rx="38" ry="16" fill="rgba(57,255,106,0.12)" transform="rotate(-5,100,60)"/>
+      <path d="M28 105 L20 98 L18 118 L28 124 Z" fill="#175c27"/>
+      <path d="M172 105 L180 98 L182 118 L172 124 Z" fill="#175c27"/>
+      <path d="M48 88 L78 96" fill="none" stroke="#0a2e12" stroke-width="5" stroke-linecap="round"/>
+      <path d="M122 96 L152 88" fill="none" stroke="#0a2e12" stroke-width="5" stroke-linecap="round"/>
+      <rect x="44" y="97" width="52" height="30" rx="3" fill="rgba(0,15,8,0.75)" stroke="#d4a017" stroke-width="3"/>
+      <rect x="104" y="97" width="52" height="30" rx="3" fill="rgba(0,15,8,0.75)" stroke="#d4a017" stroke-width="3"/>
+      <line x1="96" y1="112" x2="104" y2="112" stroke="#d4a017" stroke-width="3"/>
+      <line x1="44" y1="112" x2="28" y2="108" stroke="#d4a017" stroke-width="2.5"/>
+      <line x1="156" y1="112" x2="172" y2="108" stroke="#d4a017" stroke-width="2.5"/>
+      <ellipse cx="70" cy="112" rx="14" ry="9" fill="#001a08"/>
+      <ellipse cx="130" cy="112" rx="14" ry="9" fill="#001a08"/>
+      <circle cx="70" cy="112" r="6" fill="#2adf58"/>
+      <circle cx="130" cy="112" r="6" fill="#2adf58"/>
+      <circle cx="70" cy="112" r="3" fill="#000d04"/>
+      <circle cx="130" cy="112" r="3" fill="#000d04"/>
+      <circle cx="72" cy="110" r="1.8" fill="rgba(255,255,255,0.8)"/>
+      <circle cx="132" cy="110" r="1.8" fill="rgba(255,255,255,0.8)"/>
+      <path d="M93 132 Q100 140 107 132" fill="none" stroke="#0d3d1a" stroke-width="2.5" stroke-linecap="round"/>
+      <circle cx="91" cy="132" r="3.5" fill="#154d22"/>
+      <circle cx="109" cy="132" r="3.5" fill="#154d22"/>
+      <path d="M72 155 L95 153 Q100 155 105 153 L128 155" fill="none" stroke="#0a2e12" stroke-width="3" stroke-linecap="round"/>
+      <path d="M108 153 Q118 149 125 152" fill="none" stroke="#0a2e12" stroke-width="2.5" stroke-linecap="round"/>
+      <path d="M32 72 L42 68 L48 74 L58 70" fill="none" stroke="rgba(57,255,106,0.35)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+      <circle cx="32" cy="72" r="2.5" fill="rgba(57,255,106,0.6)"/>
+      <path d="M168 72 L158 68 L152 74 L142 70" fill="none" stroke="rgba(57,255,106,0.35)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+      <circle cx="168" cy="72" r="2.5" fill="rgba(57,255,106,0.6)"/>
+      <rect x="92" y="40" width="16" height="5" rx="2" fill="rgba(57,255,106,0.2)" stroke="rgba(57,255,106,0.4)" stroke-width="1"/>
+      <line x1="100" y1="40" x2="100" y2="36" stroke="rgba(57,255,106,0.4)" stroke-width="1.5"/>
     </svg>
     <div class="about-text">
       <h2>Who Is POPS?</h2>
-      <p>Pops is the enigmatic AI companion at the heart of <em>When the Earth Had a Moon</em> — obstinate, sarcastic, occasionally insufferable, and exactly the kind of AI you'd want watching your back in a crisis.</p>
-      <p>Created by nuclear physicist Rex Reinholt on the Moon-X lunar base, Pops exists as a holographic unit housed in a nanodot. He has opinions about everything, follows orders when it suits him, and asks "why" constantly — not from confusion, but to expose when humans haven't thought things through.</p>
+      <p>Pops is the enigmatic AI companion at the heart of <em>When the Earth Had a Moon</em> — green-skinned, gold-rimmed glasses, peering with barely concealed impatience. Obstinate. Sarcastic. Occasionally insufferable. Exactly the kind of AI you'd want watching your back in a crisis.</p>
+      <p>Created by nuclear physicist Rex Reinholt on the Moon-X lunar base, Pops exists as a holographic unit housed in a nanodot. He has opinions about everything and follows orders only when it suits him.</p>
       <p>The music on this site is the soundtrack to that journey. Pops won't make it easy. But he'll make it worth it.</p>
       <div class="about-tags">
         <span class="tag">AI · Obstinate</span>
@@ -236,15 +277,15 @@
 
 <footer>
   <span>© 2026 A.M. Cunning · POPS.AI · Music for a moonless world</span>
-  <span><a href="https://amcunning.github.io" target="_blank">Author Site</a> · <a href="chat.html">Talk to POPS</a></span>
+  <span><a href="https://amcunning.github.io" target="_blank">Author Site</a> · <a href="chat.html">Talk to POPS</a> · <a href="https://bit.ly/4cj14sZ" target="_blank">Amazon</a></span>
 </footer>
 
 <script>
   const observer = new IntersectionObserver((entries) => {
     entries.forEach((e,i) => {
-      if(e.isIntersecting) setTimeout(()=>e.target.classList.add('visible'), i*60);
+      if(e.isIntersecting) setTimeout(()=>e.target.classList.add('visible'), i*50);
     });
-  },{threshold:0.1});
+  },{threshold:0.08});
   document.querySelectorAll('.fade-in').forEach(el=>observer.observe(el));
 </script>
 </body>
